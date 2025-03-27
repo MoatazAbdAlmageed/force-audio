@@ -21,10 +21,10 @@ jobs:
 
       - name: Verify Directory
         run: |
-          if [ ! -d "ForceAudio" ]; then
-            echo "Error: ForceAudio directory not found!"
+          if (!(Test-Path -Path "ForceAudio" -PathType Container)) {
+            Write-Host "Error: ForceAudio directory not found!"
             exit 1
-          fi
+          }
 
       - name: Build
         run: |
