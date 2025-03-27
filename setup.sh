@@ -1,5 +1,5 @@
 # Ensure ForceAudio directory exists
-mkdir -p ForceAudio
+mkdir ForceAudio
 
 # Move project files if they exist
 mv *.csproj ForceAudio/ 2>/dev/null || true
