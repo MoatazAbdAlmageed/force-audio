@@ -19,6 +19,9 @@ jobs:
           chmod +x setup.sh
           ./setup.sh
 
+      - name: Debug - List Files
+        run: ls -R
+
       - name: Verify Directory
         run: |
           if (!(Test-Path -Path "ForceAudio" -PathType Container)) {
