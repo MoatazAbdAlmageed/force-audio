@@ -19,6 +19,13 @@ jobs:
           chmod +x setup.sh
           ./setup.sh
 
+      - name: Verify Directory
+        run: |
+          if [ ! -d "ForceAudio" ]; then
+            echo "Error: ForceAudio directory not found!"
+            exit 1
+          fi
+
       - name: Build
         run: |
           cd ForceAudio
