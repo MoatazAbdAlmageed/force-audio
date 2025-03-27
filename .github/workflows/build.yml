@@ -20,7 +20,9 @@ jobs:
           ./setup.sh
 
       - name: Build
-        run: dotnet publish -c Release -r win-x64 --self-contained true
+        run: |
+          cd ForceAudio
+          dotnet publish -c Release -r win-x64 --self-contained true
 
       - name: Upload EXE
         uses: actions/upload-artifact@v4

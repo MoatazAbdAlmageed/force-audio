@@ -1,34 +1,50 @@
-# ForceAudio (Windows Volume Lock)
+# ForceAudio 🎵🔒 (Windows Volume Lock)
 
-This is a simple C# console app that forces the system volume to stay at **50%**. It runs in the background and resets the volume every second if changed.
+🚨 **Why did I make this?** 🚨
+
+Meet **Belal**, my 4-year-old sound engineer-in-the-making 🎧. He loves watching YouTube on **his PC** while I sit on **my laptop** at our large table. The problem? He **ALWAYS** cranks the volume up to the max! 😵‍💫🔥
+
+I needed a way to **lock the volume at 50%** to save my ears (and my sanity). So, **ForceAudio** was born! 🚀
 
 ## Features
-✅ Runs in the background
-✅ Forces volume to 50%
-✅ Uses **NAudio** for audio control
-✅ GitHub Actions workflow to build Windows `.exe`
+✅ Runs silently in the background 🕵️‍♂️
+✅ Forces volume to 50% 🔊➡️🔇
+✅ Uses **NAudio** for audio control 🎼
+✅ GitHub Actions workflow to auto-build Windows `.exe`
+
+---
+
+## 📌 Folder Structure
+```
+/force-audio
+  ├── ForceAudio/
+  │   ├── ForceAudio.csproj  <-- Project file
+  │   ├── Program.cs         <-- Main code file
+  ├── .github/
+  │   ├── workflows/
+  │       ├── build.yml  <-- GitHub Actions workflow
+  ├── README.md
+  ├── setup.sh  <-- Bash script to set up the project
+```
 
 ---
 
 ## 📌 Installation
 
-### **1. Clone the repository**
+### **1. Clone the repository and run setup script**
 ```sh
 git clone https://github.com/your-username/force-audio.git
 cd force-audio
+chmod +x setup.sh
+./setup.sh
 ```
 
-### **2. Install dependencies**
-```sh
-dotnet add package NAudio
-```
-
-### **3. Build the project**
+### **2. Build the project**
 ```sh
 dotnet publish -c Release -r win-x64 --self-contained true
 ```
 
-### **4. Run the app**
+### **3. Run the app**
 ```sh
 cd bin/Release/net6.0/win-x64/publish/
 ./ForceAudio.exe
@@ -41,9 +57,40 @@ When you push to GitHub, it will automatically build the Windows `.exe`. You can
 
 ---
 
+## 📌 setup.sh (Bash Script to Set Up Project)
+```sh
+#!/bin/bash
+
+# Ensure .NET is installed
+if ! command -v dotnet &> /dev/null
+then
+    echo "Error: .NET SDK is not installed. Please install .NET 6+ and retry."
+    exit 1
+fi
+
+# Create project folder and initialize .NET project
+echo "Setting up ForceAudio project..."
+dotnet new console -n ForceAudio
+
+# Move Program.cs to the correct directory if it exists in the root
+if [ -f "Program.cs" ]; then
+    mv Program.cs ForceAudio/
+    echo "Moved Program.cs to ForceAudio directory."
+fi
+
+cd ForceAudio
+
+echo "Installing dependencies..."
+dotnet add package NAudio
+
+echo "Setup complete! You can now build and run the project."
+```
+
+---
+
 ## 📌 Source Code
 
-### **Program.cs**
+### **ForceAudio/Program.cs**
 ```csharp
 using System;
 using System.Threading;
@@ -94,17 +141,19 @@ jobs:
         with:
           dotnet-version: 6.0.x
 
-      - name: Install Dependencies
-        run: dotnet add package NAudio
+      - name: Run Setup Script
+        run: |
+          chmod +x setup.sh
+          ./setup.sh
 
       - name: Build
         run: dotnet publish -c Release -r win-x64 --self-contained true
 
       - name: Upload EXE
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Windows-App
-          path: bin/Release/net6.0/win-x64/publish/
+          path: ForceAudio/bin/Release/net6.0/win-x64/publish/
 ```
 
 ---
@@ -116,4 +165,4 @@ jobs:
 
 ---
 
-Let me know if you need changes! 🚀
+🎉 Thanks to **Belal** for inspiring this project (and for keeping my ears safe)! 🚀😂
