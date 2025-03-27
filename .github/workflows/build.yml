@@ -22,15 +22,9 @@ jobs:
       - name: Debug - List Files
         run: ls -R
 
-      - name: Verify Directory
-        run: |
-          if (!(Test-Path -Path "ForceAudio" -PathType Container)) {
-            Write-Host "Error: ForceAudio directory not found!"
-            exit 1
-          }
-
       - name: Build
         run: |
+          mkdir ForceAudio
           cd ForceAudio
           dotnet restore
           dotnet publish -c Release -r win-x64 --self-contained true
