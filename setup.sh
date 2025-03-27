@@ -1,5 +1,17 @@
 #!/bin/bash
 
+
+# Ensure ForceAudio directory exists
+mkdir -p ForceAudio
+
+# Move project files to ForceAudio directory
+mv *.csproj ForceAudio/ 2>/dev/null
+mv *.cs ForceAudio/ 2>/dev/null
+
+echo "Project files moved to ForceAudio/"
+
+
+
 # Ensure .NET is installed
 if ! command -v dotnet &> /dev/null
 then
